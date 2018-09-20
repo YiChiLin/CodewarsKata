@@ -11,21 +11,20 @@ function sumIntervals(intervals) {
 
         examineeFrontNum = examinee[0];
         examineeEndNum = examinee[1];
-        if (
+
+        let isExamineeGreaterThanExaminer =
           examinerFrontNum < examineeFrontNum &&
-          examineeFrontNum < examinerEndNum &&
-          examineeEndNum >= examinerEndNum
-        ) {
+          examinerEndNum < examineeEndNum;
+
+        if (isExamineeEndNumGreaterThanExaminer(examiner, examinee)) {
           examiner[1] = examineeEndNum;
-        } else if (examinerFrontNum > examineeFrontNum) {
-          records.push(examinee);
-        } else if (examineeEndNum < examinerEndNum) {
         } else if (
-          examinerFrontNum == examineeFrontNum &&
-          examineeEndNum == examinerEndNum
+          examinerFrontNum > examineeFrontNum ||
+          isExamineeGreaterThanExaminer
         ) {
-        } else {
           records.push(examinee);
+        } else {
+          break;
         }
         break;
       }
@@ -37,6 +36,14 @@ function sumIntervals(intervals) {
     result = item[1] - item[0] + result;
   });
   return result;
+
+  function isExamineeEndNumGreaterThanExaminer(examiner, examinee) {
+    return (
+      examiner[0] < examinee[0] &&
+      examiner[1] > examinee[0] &&
+      examiner[1] <= examinee[1]
+    );
+  }
 }
 
 console.log(sumIntervals([[1, 4], [3, 5], [7, 10]]));
